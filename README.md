@@ -1,13 +1,10 @@
-galaxydubouleBioblendScripts
-============================
+# galaxydubouleBioblendScripts
 
-Python scripts using bioblend to interact with galaxy more automatically
-------------------------------------------------------------------------
+## Python scripts using bioblend to interact with galaxy more automatically
 
 These python scripts are using [BioBlend](https://bioblend.readthedocs.io/) to interact with galaxy.
 
-Usage
------
+## Usage
 
 As it uses BioBlend, you need to install it. The easiest way is to use conda:
 
@@ -40,8 +37,7 @@ To be able to download a list of dataset you need to get their API ID. If you do
 
 If you have more, you may be interested to use the first script:
 
-`get_datasets_id.py`
-^^^^^^^^^^^^^^^^^^^^
+### `get_datasets_id.py`
 
 This script can be used to get all datasets ids from some histories or all histories.
 
@@ -66,8 +62,7 @@ The output file is a tabular delimited file whose first column is the dataset id
 You may want to modify this file to remove datasets that you don't want to download.
 
 
-`download_datasets.py`
-^^^^^^^^^^^^^^^^^^^^^^
+### `download_datasets.py`
 
 This script can be used to download all datasets from a list of dataset ids.
 The ids should be one per line. They can be obtained from the webpage by clicking on the (i) icon and using the History Content API ID or can be obtained with `get_datasets_id.py`.
@@ -82,13 +77,11 @@ $ python ${gitHubDirectory}/scripts/download_datasets.py --api $myAPI --datasetT
 
 Depending on the number of datasets, it can be quite long...
 
-Documentation
--------------
+## Documentation
 
 Here is the full help:
 
-`get_datasets_id.py`
-^^^^^^^^^^^^^^^^^^^^
+### `get_datasets_id.py`
 
 ```text
 usage: get_datasets_id.py [-h] [--url URL] --api API [--historiesTable HISTORIESTABLE] [--deleted] [--output OUTPUT]
@@ -105,8 +98,7 @@ optional arguments:
   --output OUTPUT       Output table.
 ```
 
-`download_datasets.py`
-^^^^^^^^^^^^^^^^^^^^^^
+### `download_datasets.py`
 
 ``` text
 usage: download_datasets.py [-h] [--url URL] --api API --datasetTable DATASETTABLE --outputFolder OUTPUTFOLDER
@@ -124,7 +116,6 @@ optional arguments:
                         Folder where files will be downloaded.
 ```
 
-Note
-----
+## Note
 
 By default the `--url` is set to galaxyduboule.epfl.ch but if you are not part of Duboule lab, you can still use the scripts and change it...
