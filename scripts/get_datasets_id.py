@@ -4,14 +4,24 @@ import argparse
 from bioblend.galaxy import GalaxyInstance
 
 
+# From rhoitjadhav on https://stackoverflow.com/questions/5194057/better-way-to-convert-file-sizes-in-python
+def convert_bytes(size):
+    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+        if size < 1024.0:
+            return "%3.1f %s" % (size, x)
+        size /= 1024.0
+    return size
+
+
 def write_datasets(gi, histories_id, fo):
-    fo.write("dataset_id\tdataset_name\thistory_id\thistory_name\n")
+    fo.write("dataset_id\tdataset_name\tdataset_size\thistory_id\thistory_name\n")
     for history_id in histories_id:
         history_name = gi.histories.show_history(history_id)['name']
         datasets = gi.histories.show_history(history_id)['state_ids']['ok']
         sys.stderr.write(f"Found {len(datasets)} in {history_name}.\n")
         for dataset in datasets:
             fo.write(f"{dataset}\t{gi.datasets.show_dataset(dataset_id=dataset)['name']}"
+                     f"\t{convert_bytes(gi.datasets.show_dataset(dataset_id=dataset)['file_size'])}"
                      f"\t{history_id}\t{history_name}\n")
 
 

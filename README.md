@@ -21,7 +21,7 @@ $ conda activate bioblend
 Then you need to download the scripts, you can click on Code, Download ZIP on the upper part of the page and then unzip it. You will set the path of galaxydubouleBioblendScripts in a bash variable:
 ```bash
 # You need to adapt to where you downloaded:
-gitHubDirectory=/home/ldelisle/Documents/mygit/galaxydubouleBioblendScripts/
+$ gitHubDirectory=/home/ldelisle/Documents/mygit/galaxydubouleBioblendScripts/
 ```
 
 In order to use these script you need to get your api key from your galaxy instance.
@@ -29,11 +29,10 @@ Log in your galaxy, go to User, Settings, Manage API key. If there is no, you ne
 
 ```bash
 # You need to adapt to your API:
-myAPI=blablabla
+$ myAPI=blablabla
 ```
 
 To be able to download a list of dataset you need to get their API ID. If you don't have a lot of them, you can get them clicking on the (i) icon on the galaxy webpage, checking the line "History Content API ID".
-
 
 If you have more, you may be interested to use the first script:
 
@@ -57,7 +56,7 @@ Then run:
 $ python ${gitHubDirectory}/scripts/get_datasets_id.py --api $myAPI --historiesTable my_histories.txt > my_datasets_in_my_histories.txt
 ```
 
-The output file is a tabular delimited file whose first column is the dataset id, the second is the dataset name, the third is the history id and the fourth is the history_name.
+The output file is a tabular delimited file whose first column is the dataset id, the second is the dataset name, the third is the size of the dataset, the fourth is history id and the fifth is the history_name.
 
 You may want to modify this file to remove datasets that you don't want to download.
 
