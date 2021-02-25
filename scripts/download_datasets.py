@@ -13,7 +13,7 @@ def download_datasets(gi, dataset_table, output_folder):
             potential_dataset = line.split()[0]
             infos = gi.datasets.show_dataset(potential_dataset)
             if not isinstance(infos, dict):
-                if i != 1 or potential_dataset == 'dataset_id':
+                if i != 1 or potential_dataset != 'dataset_id':
                     print(f"Error line {i}:")
                     print(infos)
                     print("Line ignored.")
