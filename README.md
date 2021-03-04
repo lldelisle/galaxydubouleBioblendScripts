@@ -71,7 +71,7 @@ It will download the datasets in one subdirectory per history and the name will 
 An example usage is:
 
 ```bash
-$ python ${gitHubDirectory}/scripts/download_datasets.py --api $myAPI --datasetTable my_histories.txt --outputFolder my_downloads/
+$ python ${gitHubDirectory}/scripts/download_datasets.py --api $myAPI --datasetTable my_datasets_in_my_histories.txt --outputFolder my_downloads/
 ```
 
 Depending on the number of datasets, it can be quite long...
