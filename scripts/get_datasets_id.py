@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright 2021 Lucille Delisle
 import sys
 import argparse
