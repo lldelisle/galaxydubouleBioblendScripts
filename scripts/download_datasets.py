@@ -13,7 +13,10 @@ def download_datasets(gi, dataset_table, output_folder):
     with open(dataset_table, 'r') as f:
         for i, line in enumerate(f, 1):
             potential_dataset = line.split()[0]
-            infos = gi.datasets.show_dataset(potential_dataset)
+            try:
+                infos = gi.datasets.show_dataset(potential_dataset)
+            except Exception:
+                infos = None
             if not isinstance(infos, dict):
                 if i != 1 or potential_dataset != 'dataset_id':
                     print(f"Error line {i}:")
