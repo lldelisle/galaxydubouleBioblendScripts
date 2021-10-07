@@ -81,6 +81,27 @@ $ python ${gitHubDirectory}/scripts/download_datasets.py --api $myAPI --datasetT
 Depending on the number of datasets, it can be quite long...
 
 
+### `get_command_lines.py`
+
+This script can be useful as it allows you to get all the command lines that have been used to generate a final file (for example a figure or a bigwig).
+
+
+An example usage is:
+
+```bash
+$ python ${gitHubDirectory}/scripts/get_command_lines.py --api $myAPI --datasetID d1f1e06ea39dcb1d
+```
+
+This tool is still under development and suggestions are welcome.
+
+For the moment, it outputs for each job:
+
+```bash
+# tool_id
+# command_version
+command_line
+```
+
 ## Collection point of view
 
 ### `get_collections_id.py`
