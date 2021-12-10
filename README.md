@@ -72,6 +72,8 @@ The ids should be one per line. They can be obtained from the webpage by clickin
 
 It will download the datasets in one subdirectory per history and the name will be the one you would have if you would have downloaded it through the webpage.
 
+*Warning*: If the files already exist, the script will overwrite them.
+
 An example usage is:
 
 ```bash
@@ -134,6 +136,8 @@ You may want to modify this file to remove collections that you don't want to do
 This script can be used to download all datasets from a list of collection ids and history ids. There should be one line per collection, first column the collection id and second column the history id. They can be obtained with `get_collections_id.py`.
 
 It will download the datasets in one subdirectory per history and one subsubdirectory per collection. The name will be the name of the identifier of within the collection with the correct extension.
+
+*Warning*: By default, the script will only download the files which are not present. To force the script to overwrite existing files use `--force`.
 
 An example usage is:
 
@@ -202,20 +206,7 @@ optional arguments:
 ### `download_collections.py`
 
 ``` text
-usage: get_collections_id.py [-h] [--url URL] --api API [--historiesTable HISTORIESTABLE] [--deleted] [--output OUTPUT]
-
-Get all collections ids from history ids.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --url URL             A FQDN or IP for a given instance of Galaxy.
-  --api API             Your API key. Can be obtained from the webpage. User - Settings - Manage API key
-  --historiesTable HISTORIESTABLE
-                        [Optional] Input table with one line per history. It should correspond to the History API ID.
-  --deleted             Get the deleted histories only.
-  --output OUTPUT       Output table.
-(bioblend) [ldelisle@SV-49-002 ~]$ python Documents/mygit/galaxydubouleBioblendScripts/scripts/download_collections.py 
-usage: download_collections.py [-h] [--url URL] --api API --collectionTable COLLECTIONTABLE --outputFolder OUTPUTFOLDER
+usage: download_collections.py [-h] [--url URL] --api API --collectionTable COLLECTIONTABLE --outputFolder OUTPUTFOLDER [--force]
 
 Download collections from collection ids.
 
@@ -228,6 +219,7 @@ optional arguments:
                         collection id, second column history id).
   --outputFolder OUTPUTFOLDER
                         Folder where files will be downloaded.
+  --force               Overwrite existing file
 
 ```
 

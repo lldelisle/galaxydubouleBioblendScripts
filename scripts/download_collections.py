@@ -7,7 +7,7 @@ import argparse
 from bioblend.galaxy import GalaxyInstance
 
 
-def download_element(gi, e, current_output_folder):
+def download_element(gi, e, current_output_folder, force):
     identifier = e['element_identifier']
     # If simple collection:
     dataset_id = e['object']['id']
@@ -15,18 +15,19 @@ def download_element(gi, e, current_output_folder):
     if not dataset_ext or dataset_ext == 'auto' or dataset_ext == '_sniff_':
         dataset_ext = 'data'
     output_file = os.path.join(current_output_folder, f"{identifier}.{dataset_ext}")
-    if e['object']['purged']:
-        print(f"Could not download {identifier} because it has been purged.")
-    else:
-        try:
-            gi.datasets.download_dataset(dataset_id,
-                                            file_path=output_file,
-                                            use_default_filename=False)
-        except Exception:
-            print("Could not download.")
+    if force or not os.path.exists(output_file):
+        if e['object']['purged']:
+            print(f"Could not download {identifier} because it has been purged.")
+        else:
+            try:
+                gi.datasets.download_dataset(dataset_id,
+                                             file_path=output_file,
+                                             use_default_filename=False)
+            except Exception:
+                print("Could not download.")
 
 
-def download_collections(gi, collection_table, output_folder):
+def download_collections(gi, collection_table, output_folder, force):
     if not os.path.isdir(output_folder):
         os.mkdir(output_folder)
     with open(collection_table, 'r') as f:
@@ -60,7 +61,7 @@ def download_collections(gi, collection_table, output_folder):
                     if e['element_type'] == 'hda':
                         # This was a simple collection
                         print(f"Downloading {e['element_identifier']}")
-                        download_element(gi, e, current_output_folder)
+                        download_element(gi, e, current_output_folder, force)
                     else:
                         # This was a collection of pairs:
                         new_output_folder = os.path.join(current_output_folder, e['element_identifier'])
@@ -68,7 +69,7 @@ def download_collections(gi, collection_table, output_folder):
                             os.makedirs(new_output_folder)
                         for ee in e['object']['elements']:
                             print(f"Downloading {ee['element_identifier']}")
-                            download_element(gi, ee, new_output_folder)
+                            download_element(gi, ee, new_output_folder, force)
 
 
 def parse_arguments(args=None):
@@ -85,13 +86,14 @@ def parse_arguments(args=None):
                       " (first column collection id, second column history id).")
     argp.add_argument('--outputFolder', default=None, required=True,
                       help="Folder where files will be downloaded.")
+    argp.add_argument('--force', help="Overwrite existing file", action="store_true")
     return(argp)
 
 
 def main(args=None):
     args = parse_arguments().parse_args(args)
     gi = GalaxyInstance(args.url, key=args.api)
-    download_collections(gi, args.collectionTable, args.outputFolder)
+    download_collections(gi, args.collectionTable, args.outputFolder, args.force)
 
 
 if __name__ == "__main__":
