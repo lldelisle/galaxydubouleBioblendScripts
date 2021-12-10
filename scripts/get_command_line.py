@@ -11,16 +11,24 @@ def update_tables(gi, dataset_id, replacement_table={}, visited_dataset_ids=[], 
         print(f"Visiting {dataset_id}")
         dataset_info = gi.datasets.show_dataset(dataset_id)
         file_name = dataset_info['name'] + '.' + dataset_info['file_ext']
-        file_path = dataset_info['file_name']
-        replacement_table[file_path] = file_name
+        try:
+            file_path = dataset_info['file_name']
+            if file_path != '':
+                replacement_table[file_path] = file_name
+        except Exception:
+            pass
         job_info = gi.jobs.show_job(dataset_info['creating_job'])
         if job_info['tool_id'] != 'upload1':
             outputs_ids = [o['id'] for o in job_info['outputs'].values() if o['id'] != dataset_id]
             for oid in outputs_ids:
                 output_info = gi.datasets.show_dataset(oid)
                 output_file_name = output_info['name'] + '.' + output_info['file_ext']
-                output_file_path = output_info['file_name']
-                replacement_table[output_file_path] = output_file_name
+                try:
+                    output_file_path = output_info['file_name']
+                    if output_file_path != '':
+                        replacement_table[output_file_path] = output_file_name
+                except Exception:
+                    pass
             prefix = '# ' + job_info['tool_id'] + '\n# command_version:' + job_info['command_version'] + '\n'
             command_lines_rev_order.append(prefix + job_info['command_line'])
             visited_dataset_ids.append(dataset_id)

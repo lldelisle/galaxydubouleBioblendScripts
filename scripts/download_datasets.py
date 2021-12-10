@@ -24,12 +24,19 @@ def download_datasets(gi, dataset_table, output_folder):
                     print("Line ignored.")
             else:
                 history_name = gi.histories.show_history(infos['history_id'])['name']
-                current_output_folder = os.path.join(output_folder,
-                                                     infos['history_id'] + "_" + history_name.replace(' ', '_'))
-                if not os.path.isdir(current_output_folder):
-                    os.mkdir(current_output_folder)
-                print(f"Downloading {infos['name']} in {current_output_folder}")
-                gi.datasets.download_dataset(potential_dataset, current_output_folder)
+                if infos['purged']:
+                    print(f"Could not download {infos['name']} from {history_name} because it has been purged.")
+                else:
+                    history_name = gi.histories.show_history(infos['history_id'])['name']
+                    current_output_folder = os.path.join(output_folder,
+                                                        infos['history_id'] + "_" + history_name.replace(' ', '_'))
+                    if not os.path.isdir(current_output_folder):
+                        os.mkdir(current_output_folder)
+                    print(f"Downloading {infos['name']} in {current_output_folder}")
+                    try:
+                        gi.datasets.download_dataset(potential_dataset, current_output_folder)
+                    except Exception:
+                        print("Could not download.")
 
 
 def parse_arguments(args=None):

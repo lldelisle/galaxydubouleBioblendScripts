@@ -14,9 +14,17 @@ def download_element(gi, e, current_output_folder):
     dataset_ext = e['object']['file_ext']
     if not dataset_ext or dataset_ext == 'auto' or dataset_ext == '_sniff_':
         dataset_ext = 'data'
-    gi.datasets.download_dataset(dataset_id,
-                                 file_path=os.path.join(current_output_folder, f"{identifier}.{dataset_ext}"),
-                                 use_default_filename=False)
+    output_file = os.path.join(current_output_folder, f"{identifier}.{dataset_ext}")
+    if e['object']['purged']:
+        print(f"Could not download {identifier} because it has been purged.")
+    else:
+        try:
+            gi.datasets.download_dataset(dataset_id,
+                                            file_path=output_file,
+                                            use_default_filename=False)
+        except Exception:
+            print("Could not download.")
+
 
 def download_collections(gi, collection_table, output_folder):
     if not os.path.isdir(output_folder):
@@ -61,6 +69,7 @@ def download_collections(gi, collection_table, output_folder):
                         for ee in e['object']['elements']:
                             print(f"Downloading {ee['element_identifier']}")
                             download_element(gi, ee, new_output_folder)
+
 
 def parse_arguments(args=None):
     argp = argparse.ArgumentParser(
