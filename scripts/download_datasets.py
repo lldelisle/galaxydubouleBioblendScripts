@@ -29,7 +29,7 @@ def download_datasets(gi, dataset_table, output_folder):
                 else:
                     history_name = gi.histories.show_history(infos['history_id'])['name']
                     current_output_folder = os.path.join(output_folder,
-                                                        infos['history_id'] + "_" + history_name.replace(' ', '_'))
+                                                         infos['history_id'] + "_" + history_name.replace(' ', '_'))
                     if not os.path.isdir(current_output_folder):
                         os.mkdir(current_output_folder)
                     print(f"Downloading {infos['name']} in {current_output_folder}")
