@@ -33,7 +33,7 @@ default_parameters = {
         "--min-nnz": 10,
         "--min-count": 0,
         "--ignore-diags": 2,
-        "--tol": 200,
+        "--tol": "1e-05",
         "--max-iters": 200,
         "--name": "weight",
         "--convergence-policy": "store_final"
