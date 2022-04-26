@@ -104,6 +104,8 @@ For the moment, it outputs for each job:
 command_line
 ```
 
+The option `--simplify` allow to remove from the command line the parameters with default value. However, they need to be manually entered in the python script.
+
 ## Collection point of view
 
 ### `get_collections_id.py`
@@ -223,6 +225,24 @@ optional arguments:
 
 ```
 
+### `get_command_line.py`
+
+``` text
+usage: get_command_line.py [-h] [--url URL] --api API --datasetID DATASETID
+                           [--simplify]
+
+Write all commandlines used to generate a dataset from a dataset id.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --url URL             A FQDN or IP for a given instance of Galaxy.
+  --api API             Your API key. Can be obtained from the webpage. User -
+                        Settings - Manage API key
+  --datasetID DATASETID
+                        Dataset id
+  --simplify            Remove parameters with default values
+
+```
 ## Note
 
 By default the `--url` is set to galaxyduboule.epfl.ch but if you are not part of Duboule lab, you can still use the scripts and change it...
