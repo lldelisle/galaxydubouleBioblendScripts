@@ -23,6 +23,22 @@ default_parameters = {
         "--minimum-length": 0,
         "--pair-filter": "any"
     },
+    "toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.1":
+    {
+        "-j": 1,
+        "--cores": 1,
+        "-e": 0.1,
+        "--error-rate": 0.1,
+        "--no-indels": "allow",
+        "-n": 1,
+        "--times": 1,
+        "-O": 3,
+        "--overlap": 3,
+        "--quality-base": 33,
+        "-m": 0,
+        "--minimum-length": 0,
+        "--pair-filter": "any"
+    },
     "testtoolshed.g2.bx.psu.edu/repos/lldelisle/cooler/cooler_balance/0.0.1":
     {
         "-p": 8,
