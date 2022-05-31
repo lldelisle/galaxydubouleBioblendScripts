@@ -301,7 +301,6 @@ def simplify_command_line(job_info):
             if potential_key in current_defaults \
                and potential_value.strip("'") == str(current_defaults[potential_key]):
                 indices_to_remove.append(i)
-                indices_to_remove.append(i + 1)
     return ' '.join([item for i, item in enumerate(command_line_split)
                      if i not in indices_to_remove])
 
