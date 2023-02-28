@@ -22,16 +22,19 @@ def write_collections(gi, histories_id, fo):
         collection_ids = [c['id'] for c in gi.histories.show_history(history_id, contents=True, types='dataset_collection')]
         sys.stderr.write(f"Found {len(collection_ids)} in {history_name}.\n")
         for collection_id in collection_ids:
+            infos = gi.histories.show_dataset_collection(history_id, collection_id)
+            elements = infos['elements']
             try:
                 full_size = sum([e['object']['file_size']
-                                 for e in gi.histories.show_dataset_collection(history_id, collection_id)['elements']])
+                                 for e in elements])
             except KeyError:
+                # This is a list:list or list:paired
                 full_size = sum([ee['object']['file_size']
-                                 for e in gi.histories.show_dataset_collection(history_id, collection_id)['elements']
+                                 for e in elements
                                  for ee in e['object']['elements']])
             fo.write(f"{collection_id}\t{history_id}"
-                     f"\t{gi.histories.show_dataset_collection(history_id, collection_id)['hid']}"
-                     f"\t{gi.histories.show_dataset_collection(history_id, collection_id)['name']}"
+                     f"\t{infos['hid']}"
+                     f"\t{infos['name']}"
                      f"\t{convert_bytes(full_size)}"
                      f"\t{history_name}\n")
 
@@ -42,7 +45,7 @@ def getHistories(gi, historiesTable, deleted):
     sys.stderr.write("Done.\n")
     sys.stderr.write(f"Found {len(all_histories)} histories.\n")
     if historiesTable is None:
-        return(all_histories)
+        return all_histories
     else:
         histories = []
         with open(historiesTable, 'r') as f:
@@ -53,7 +56,7 @@ def getHistories(gi, historiesTable, deleted):
                 else:
                     sys.stderr.write(f"The history id line {i} ({potential_hist}) is not part of histories. Will be ignored.\n")
         sys.stderr.write(f"Will process {len(histories)} histories.\n")
-        return(histories)
+        return histories
 
 
 def parse_arguments(args=None):
@@ -72,7 +75,7 @@ def parse_arguments(args=None):
     argp.add_argument('--output', default=sys.stdout,
                       type=argparse.FileType('w'),
                       help="Output table.")
-    return(argp)
+    return argp
 
 
 def main(args=None):

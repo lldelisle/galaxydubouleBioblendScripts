@@ -18,12 +18,14 @@ def convert_bytes(size):
 def write_datasets(gi, histories_id, fo):
     fo.write("dataset_id\tdataset_name\tdataset_size\thistory_id\thistory_name\n")
     for history_id in histories_id:
-        history_name = gi.histories.show_history(history_id)['name']
-        datasets = gi.histories.show_history(history_id)['state_ids']['ok']
+        infos = gi.histories.show_history(history_id)
+        history_name = infos['name']
+        datasets = infos['state_ids']['ok']
         sys.stderr.write(f"Found {len(datasets)} in {history_name}.\n")
         for dataset in datasets:
-            fo.write(f"{dataset}\t{gi.datasets.show_dataset(dataset_id=dataset)['name']}"
-                     f"\t{convert_bytes(gi.datasets.show_dataset(dataset_id=dataset)['file_size'])}"
+            infos_dataset = gi.datasets.show_dataset(dataset_id=dataset)
+            fo.write(f"{dataset}\t{infos_dataset['name']}"
+                     f"\t{convert_bytes(infos_dataset['file_size'])}"
                      f"\t{history_id}\t{history_name}\n")
 
 
@@ -33,7 +35,7 @@ def getHistories(gi, historiesTable, deleted):
     sys.stderr.write("Done.\n")
     sys.stderr.write(f"Found {len(all_histories)} histories.\n")
     if historiesTable is None:
-        return(all_histories)
+        return all_histories
     else:
         histories = []
         with open(historiesTable, 'r') as f:
@@ -44,7 +46,7 @@ def getHistories(gi, historiesTable, deleted):
                 else:
                     sys.stderr.write(f"The history id line {i} ({potential_hist}) is not part of histories. Will be ignored.\n")
         sys.stderr.write(f"Will process {len(histories)} histories.\n")
-        return(histories)
+        return histories
 
 
 def parse_arguments(args=None):
@@ -63,7 +65,7 @@ def parse_arguments(args=None):
     argp.add_argument('--output', default=sys.stdout,
                       type=argparse.FileType('w'),
                       help="Output table.")
-    return(argp)
+    return argp
 
 
 def main(args=None):

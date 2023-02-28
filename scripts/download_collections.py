@@ -87,7 +87,7 @@ def parse_arguments(args=None):
     argp.add_argument('--outputFolder', default=None, required=True,
                       help="Folder where files will be downloaded.")
     argp.add_argument('--force', help="Overwrite existing file", action="store_true")
-    return(argp)
+    return argp
 
 
 def main(args=None):

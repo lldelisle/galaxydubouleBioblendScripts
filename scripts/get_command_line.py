@@ -534,7 +534,7 @@ def parse_arguments(args=None):
                       help="Dataset id")
     argp.add_argument('--simplify', action="store_true",
                       help="Remove parameters with default values")
-    return(argp)
+    return argp
 
 
 def main(args=None):
