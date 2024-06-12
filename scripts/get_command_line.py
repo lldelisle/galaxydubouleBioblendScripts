@@ -4,6 +4,7 @@
 import sys
 import argparse
 from bioblend.galaxy import GalaxyInstance
+import bioblend
 import re
 
 default_parameters = {
@@ -490,7 +491,11 @@ def update_tables(gi, dataset_id, simplify, replacement_table={}, visited_datase
                 replacement_table[file_path] = file_name
         except Exception:
             pass
-        job_info = gi.jobs.show_job(dataset_info['creating_job'])
+        try:
+            job_info = gi.jobs.show_job(dataset_info['creating_job'])
+        except bioblend.ConnectionError:
+            visited_dataset_ids.append(dataset_id)
+            return [replacement_table, visited_dataset_ids, command_lines_rev_order]
         if job_info['tool_id'] != 'upload1':
             outputs_ids = [o['id'] for o in job_info['outputs'].values() if o['id'] != dataset_id]
             for oid in outputs_ids:
