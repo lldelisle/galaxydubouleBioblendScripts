@@ -507,11 +507,12 @@ def update_tables(gi, dataset_id, simplify, replacement_table={}, visited_datase
                         replacement_table[output_file_path] = output_file_name
                 except Exception:
                     pass
-            prefix = '# ' + job_info['tool_id'] + '\n# command_version:' + job_info['command_version'] + '\n'
-            if simplify:
-                command_lines_rev_order.append(prefix + simplify_command_line(job_info))
-            else:
-                command_lines_rev_order.append(prefix + job_info['command_line'])
+            if job_info['tool_id'] != '__EXTRACT_DATASET__':
+                prefix = '# ' + job_info['tool_id'] + '\n# command_version:' + job_info['command_version'] + '\n'
+                if simplify:
+                    command_lines_rev_order.append(prefix + simplify_command_line(job_info))
+                else:
+                    command_lines_rev_order.append(prefix + job_info['command_line'])
             visited_dataset_ids.append(dataset_id)
             inputs_ids = [o['id'] for o in job_info['inputs'].values()]
             for iid in inputs_ids:
