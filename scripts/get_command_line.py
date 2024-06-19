@@ -654,7 +654,7 @@ def update_tables(gi, dataset_id, simplify, replacement_table={}, visited_datase
         except bioblend.ConnectionError:
             visited_dataset_ids.append(dataset_id)
             return [replacement_table, visited_dataset_ids, command_lines_rev_order]
-        if job_info['tool_id'] != 'upload1':
+        if job_info['tool_id'] not in ['upload1', '__DATA_FETCH__']:
             outputs_ids = [o['id'] for o in job_info['outputs'].values() if o['id'] != dataset_id]
             for oid in outputs_ids:
                 output_info = gi.datasets.show_dataset(oid)
@@ -666,6 +666,8 @@ def update_tables(gi, dataset_id, simplify, replacement_table={}, visited_datase
                 except Exception:
                     pass
             if job_info['tool_id'] != '__EXTRACT_DATASET__':
+                if job_info['command_version'] is None:
+                    job_info['command_version'] = ''
                 prefix = '# ' + job_info['tool_id'] + '\n# command_version:' + job_info['command_version'] + '\n'
                 if simplify:
                     command_lines_rev_order.append(prefix + simplify_command_line(job_info))
