@@ -24,14 +24,21 @@ def write_collections(gi, histories_id, fo):
         for collection_id in collection_ids:
             infos = gi.histories.show_dataset_collection(history_id, collection_id)
             elements = infos['elements']
-            try:
-                full_size = sum([e['object']['file_size']
-                                 for e in elements])
-            except KeyError:
-                # This is a list:list or list:paired
-                full_size = sum([ee['object']['file_size']
-                                 for e in elements
-                                 for ee in e['object']['elements']])
+            objects = [e['object'] for e in elements]
+            if len(objects) == 0:
+                full_size = 0
+            elif 'file_size' in objects[0]:
+                full_size = sum([o['file_size']
+                                 for o in objects])
+            # This is a list:list or list:paired
+            else:
+                objects = [ee['object'] for o in objects
+                           for ee in o['elements']]
+                if len(objects) == 0:
+                    full_size = 0
+                elif 'file_size' in objects[0]:
+                    full_size = sum([o['file_size']
+                                    for o in objects])
             fo.write(f"{collection_id}\t{history_id}"
                      f"\t{infos['hid']}"
                      f"\t{infos['name']}"
