@@ -56,6 +56,22 @@ default_parameters = {
         "--minimum-length": 0,
         "--pair-filter": "any"
     },
+    "toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/4.4+galaxy0":
+    {
+        "-j": 1,
+        "--cores": 1,
+        "-e": 0.1,
+        "--error-rate": 0.1,
+        "--no-indels": "allow",
+        "-n": 1,
+        "--times": 1,
+        "-O": 3,
+        "--overlap": 3,
+        "--quality-base": 33,
+        "-m": 0,
+        "--minimum-length": 0,
+        "--pair-filter": "any"
+    },
     "testtoolshed.g2.bx.psu.edu/repos/lldelisle/cooler/cooler_balance/0.0.1":
     {
         "-p": 8,
@@ -82,13 +98,27 @@ default_parameters = {
         "-m": [5, 50],
         "--mfold": [5, 50],
         "--shift": 0,
-        "--extsize": 200,
         "-q": 0.05,
         "--qvalue": 0.05,
         "--slocal": 1000,
         "--llocal": 10000,
         "--broad-cutoff": 0.1,
         "--fe-cutoff": 1
+    },
+    "toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.2.9.1+galaxy0":
+    {
+        "-f": "AUTO",
+        "-g": "hs",
+        "--keep-dup": 1,
+        "--buffer-size": 100000,
+        "--verbose": 2,
+        "--bw": 300,
+        "--shift": 0,
+        "-q": 0.05,
+        "--qvalue": 0.05,
+        "--slocal": 1000,
+        "--llocal": 10000,
+        "--broad-cutoff": 0.1
     },
     "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.7.7a":
     {
